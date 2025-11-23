@@ -43,11 +43,7 @@ import { AtroposVue } from '@hinzky/atropos-vue'
 <template>
   <AtroposVue
     class="feature-card"
-    :highlight="true"
-    :scale="true"
-    :rotate="true"
-    :shadow="true"
-    :options="{ activeOffset: 52, duration: 600 }"
+    :options="{ activeOffset: 52, duration: 600, highlight: false }"
   >
     <img data-atropos-offset="5" src="/card.png" />
   </AtroposVue>
@@ -56,11 +52,11 @@ import { AtroposVue } from '@hinzky/atropos-vue'
 
 ### Component props
 
-- `scale` – renders the `.atropos-scale` wrapper when `true` (default false)
-- `rotate` – renders the `.atropos-rotate` wrapper when `true` (default false)
-- `shadow` – renders the `.atropos-shadow` element when `true` (default false)
+- `class` – applied to the root `.atropos` element, useful for theming or layout tweaks
+- `innerClassName` – passed to the `.atropos-inner` container around your slotted content
+- `options` – merges with the default Atropos configuration (highlight, rotate, shadow all enabled) before initializing the web component
 
-All wrapper props default to `true`, which matches the structure expected by Atropos. Disable any of them if you already provide the corresponding DOM structure in your slotted content.
+The scale, rotate, and shadow wrappers are always rendered so the structure matches what Atropos expects; toggle their behaviour by setting the corresponding flags inside `options` instead (e.g. `:options="{ highlight: false }"`).
 
 ## Build
 
