@@ -7,8 +7,14 @@
     "vue",
     "vue3",
     "card",
-    "3D",
-    "parallax"
+    "3d",
+    "parallax",
+    "component",
+    "hover",
+    "javascript",
+    "portfolio",
+    "gallery",
+    "showcase"
   ],
   "homepage": "https://github.com/enrique-orellana/atropos-vue#readme",
   "bugs": {
