@@ -1,5 +1,5 @@
 ﻿<script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
+import { Fragment, computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { AtroposClass, defaultConfiguration, type AtroposConfiguration } from '../hooks/atropos'
 
 const props = withDefaults(
@@ -7,6 +7,8 @@ const props = withDefaults(
     class?: string
     innerClassName?: string
     highlight?: boolean
+    scale?: boolean
+    rotate?: boolean
     shadow?: boolean
     options?: AtroposConfiguration
   }>(),
@@ -14,6 +16,8 @@ const props = withDefaults(
     class: '',
     innerClassName: '',
     highlight: false,
+    scale: false,
+    rotate: false,
     shadow: false,
     options: () => defaultConfiguration
   }
@@ -21,6 +25,11 @@ const props = withDefaults(
 
 const atroposInstanceRef = ref<InstanceType<typeof AtroposClass> | null>(null)
 const mergedConfiguration = computed(() => ({ ...defaultConfiguration, ...props.options }))
+
+const scaleWrapperComponent = computed(() => (props.scale ? 'div' : Fragment))
+const rotateWrapperComponent = computed(() => (props.rotate ? 'div' : Fragment))
+const scaleWrapperAttributes = computed(() => (props.scale ? { class: 'atropos-scale' } : {}))
+const rotateWrapperAttributes = computed(() => (props.rotate ? { class: 'atropos-rotate' } : {}))
 
 const applyConfiguration = (configuration: AtroposConfiguration) => {
   if (atroposInstanceRef.value) {
@@ -55,15 +64,15 @@ onUnmounted(() => {
   <div>
     <atropos-component ref="atroposInstanceRef">
       <div :class="`atropos ${$props.class}`">
-        <div class="atropos-scale">
-          <div class="atropos-rotate">
+        <component :is="scaleWrapperComponent" v-bind="scaleWrapperAttributes">
+          <component :is="rotateWrapperComponent" v-bind="rotateWrapperAttributes">
             <div :class="`atropos-inner ${$props.innerClassName}`">
               <slot></slot>
-              <div :class="`${$props.highlight ? 'atropos-highlight ' : ''}`"></div>
+              <div v-if="$props.highlight" class="atropos-highlight"></div>
             </div>
             <div v-if="$props.shadow" class="atropos-shadow"></div>
-          </div>
-        </div>
+          </component>
+        </component>
       </div>
     </atropos-component>
   </div>
